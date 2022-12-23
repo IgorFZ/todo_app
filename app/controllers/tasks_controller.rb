@@ -47,6 +47,13 @@ class TasksController < ApplicationController
     end
   end
 
+  def toggle
+    @task = Task.find(params[:id])
+    @task.update(task_completed: params[:task_completed])
+  
+    render json: { message: "Success" }
+  end
+
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
     @task.destroy
