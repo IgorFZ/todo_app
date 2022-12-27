@@ -4,12 +4,14 @@
 
 <h1>Tasks</h1>
 
-<div id="tasks">
+<div id="tasks" data-controller="checkbox-select-all">
   <button><%= link_to "New Task", new_task_path %></button>
+  <input type="checkbox" id="all" name="all" value="all" data-checkbox-select-all-target="parent" data-action="change->checkbox-select-all#toggleChildren">
     <div id="board">
       <table width="100%">
         <thead>
           <tr>
+            <td>Select</td>
             <td>Task Name</td>
             <td>Due Date</td>
             <td>Completed</td>
@@ -22,6 +24,7 @@
           <% @tasks.each do |task| %>
             <tr data-controller="tasks" 
                 data-task-update-url="<%= task_path(task) %>">
+              <td><input type="checkbox" id="child" name="child" value="child" data-checkbox-select-all-target="child" data-action="change->checkbox-select-all#toggleParent" "tasks_ids[]", evaluation.id></td>   
               <td><%= task.task_title%></td>
               <td><%= task.task_date%></td>
               <td>
@@ -47,5 +50,6 @@
           <% end %>
         </tbody>
       </table>
-    </div>   
+    </div>
+    <%= submit_tag "Delete selected" %>
 </div>
