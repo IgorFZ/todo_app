@@ -11,22 +11,29 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :task_title, style: "display: block" %>
-    <%= form.text_field :task_title %>
-  </div>
+<div class="form">
+    <div class="box">
+      <%= form.label :task_title, 'Title:', style: "display: block", :class => 'label' %>
+      <%= form.text_field :task_title, :class => 'input'  %>
+    </div>
+  
+    <div class="box">
+      <%= form.label :task_desc, 'Description:', style: "display: block", :class => 'label' %>
+      <%= form.text_area :task_desc, :class => 'input'  %>
+    </div>
+  
+    <div class="box">
+      <%= form.label :task_date, 'Date:', style: "display: block", :class => 'label' %>
+      <%= form.date_field :task_date, :class => 'input' %>
+    </div>
+  
+    <div>
+      <%= form.number_field :user_id, id: :task_user_id, value: current_user.id, type: :hidden %>
+    </div>
+  
+    <div class="box">
+      <%= form.submit :class => 'btn green width-420' %>
+    </div>
+</div>
 
-  <div>
-    <%= form.label :task_desc, style: "display: block" %>
-    <%= form.text_area :task_desc %>
-  </div>
-
-  <div>
-    <%= form.label :task_date, style: "display: block" %>
-    <%= form.date_field :task_date %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
 <% end %>

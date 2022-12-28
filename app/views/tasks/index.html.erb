@@ -1,51 +1,62 @@
-<%= javascript_include_tag "/javascript/controllers/tasks_controller.js" %>
-
-<p style="color: green"><%= notice %></p>
-
-<h1>Tasks</h1>
-
-<div id="tasks">
-  <button><%= link_to "New Task", new_task_path %></button>
-    <div id="board">
-      <table width="100%">
-        <thead>
-          <tr>
-            <td>Task Name</td>
-            <td>Due Date</td>
-            <td>Completed</td>
-            <td>Edit</td>
-            <td>Delete</td>
-          </tr>
-        </thead>
-        
-        <tbody>
-          <% @tasks.each do |task| %>
-            <tr data-controller="tasks" 
-                data-task-update-url="<%= task_path(task) %>">
-              <td><%= task.task_title%></td>
-              <td><%= task.task_date%></td>
-              <td>
-              <%= form_with model: task do |form| %>
-                <%= form.check_box :task_completed,
-                                  data: {
-                                    id: task.id,
-                                    action: "tasks#toggle"
-                                  } %>
-                <% end %>
-              </td>
-              <td>
-                <%= link_to edit_task_path(task) do %>
-                  <i class="fa fa-edit"></i>
-                <% end %>
-              </td>
-              <td>
-                <%= link_to task_path(task), data: { "turbo_method": :delete, turbo_confirm: "Are you sure?" } do %>
-                  <i class="fa fa-trash"></i>
-                <% end %>
-              </td>  
+<% if user_signed_in? %>
+  <div id="tasks">
+    <button class="btn green"><%= link_to "New Task", new_task_path %></button>
+      <div id="board">
+        <table width="100%">
+          <thead>
+            <tr>
+              <td>Task Name</td>
+              <td>Due Date</td>
+              <td>Completed</td>
+              <td>Show</td>
+              <td>Edit</td>
+              <td>Delete</td>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>   
-</div>
+          </thead>
+          
+          <tbody>
+            <% @tasks.each do |task| %>
+              <% if task.user == current_user %>
+                <%= link_to task do %>
+                  <tr data-controller="tasks" 
+                      data-task-update-url="<%= task_path(task) %>">
+                    <td><%= task.task_title%></td>
+                    <td><%= task.task_date%></td>
+                    <td>
+                    <%= form_with model: task do |form| %>
+                      <%= form.check_box :task_completed,
+                                        data: {
+                                          id: task.id,
+                                          action: "tasks#toggle"
+                                        } %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to task do %>
+                        <i class="fa fa-eye"></i>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to edit_task_path(task) do %>
+                        <i class="fa fa-edit"></i>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to task_path(task), data: { "turbo_method": :delete, turbo_confirm: "Are you sure?" } do %>
+                        <i class="fa fa-trash"></i>
+                      <% end %>
+                    </td>  
+                  </tr>
+                <% end %>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>   
+  </div>
+<% else %>
+  <div class="no-user">
+    <h1>Create New Tasks</h1>
+    <p>Sign Up or Login to Create New Tasks</p>
+  </div>
+<% end %>

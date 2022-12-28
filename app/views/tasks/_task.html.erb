@@ -1,17 +1,24 @@
 <div id="<%= dom_id task %>">
-  <p>
-    <strong>Task title:</strong>
+  <p class="box">
+    <strong>Title:</strong>
     <%= task.task_title %>
   </p>
 
-  <p>
-    <strong>Task desc:</strong>
+  <p class="box">
+    <strong>Description:</strong>
     <%= task.task_desc %>
   </p>
 
-  <p>
-    <strong>Task date:</strong>
+  <p class="box"> 
+    <strong>Date:</strong>
     <%= task.task_date %>
   </p>
 
-</div>
+  <p class="box"> 
+    <strong>Status:</strong>
+    <% if task.task_completed == true %>
+      Completed
+    <% else %>
+      To do
+    <% end %>
+  </p>
